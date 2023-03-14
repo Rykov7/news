@@ -34,6 +34,7 @@ class CommentPost(SingleObjectMixin, FormView):
         return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
         comment = form.save(commit=False)
         comment.article = self.object
         comment.save()
