@@ -67,6 +67,12 @@ class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         obj = self.get_object()
         return obj.author == self.request.user
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['title'].label = "Заголовок"
+        form.fields['body'].label = "Текст"
+        return form
+
 
 class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Article
@@ -89,3 +95,9 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['title'].label = "Заголовок"
+        form.fields['body'].label = "Текст"
+        return form
